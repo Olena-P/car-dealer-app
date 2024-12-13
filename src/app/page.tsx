@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { fetchMakes } from '@/utils/api';
 
 const LazyMakesSelector = dynamic(() => import('./components/MakesSelector'), {
   ssr: false,
@@ -12,18 +13,43 @@ const LazyMakesSelector = dynamic(() => import('./components/MakesSelector'), {
 export default function FilterPage() {
   const [selectedMake, setSelectedMake] = useState<string>('');
   const [selectedYear, setSelectedYear] = useState<string>('');
+  const [makeName, setMakeName] = useState<string>('');
+  const [makes, setMakes] = useState<{ MakeId: number; MakeName: string }[]>(
+    []
+  );
+
+  useEffect(() => {
+    async function loadMakes() {
+      try {
+        const data = await fetchMakes();
+        setMakes(data);
+      } catch (error) {
+        console.error('Error fetching vehicle makes:', error);
+      }
+    }
+    loadMakes();
+  }, []);
+
+  const handleMakeChange = (makeId: string) => {
+    setSelectedMake(makeId);
+    const selectedMake = makes.find(
+      (make) => make.MakeId.toString() === makeId
+    );
+    setMakeName(selectedMake?.MakeName || '');
+  };
+
   const years = Array.from(
     { length: new Date().getFullYear() - 2014 },
     (_, i) => (2015 + i).toString()
   );
 
   return (
-    <div className="flex flex-col items-center justify-center  bg-white text-black">
+    <div className="flex flex-col items-center justify-center bg-white text-black">
       <h1 className="text-3xl font-bold mb-6">Filter Vehicles</h1>
       <div className="w-full max-w-md space-y-4">
         <LazyMakesSelector
           selectedMake={selectedMake}
-          setSelectedMake={setSelectedMake}
+          setSelectedMake={handleMakeChange}
         />
         <div>
           <label htmlFor="years" className="block text-sm font-medium mb-2">
@@ -46,7 +72,9 @@ export default function FilterPage() {
         <Link
           href={
             selectedMake && selectedYear
-              ? `/result/${selectedMake}/${selectedYear}`
+              ? `/result/${selectedMake}/${selectedYear}?makeName=${encodeURIComponent(
+                  makeName
+                )}`
               : '#'
           }
         >

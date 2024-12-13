@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import { fetchVehicleModels } from '@/utils/api';
 import { notFound } from 'next/navigation';
+import Breadcrumbs from '@/app/components/Breadcrumbs';
 
 interface VehicleModel {
   Model_Name: string;
@@ -16,11 +17,18 @@ export async function generateStaticParams() {
 
 export default async function ResultPage({
   params: paramsPromise,
+  searchParams: searchParamsPromise,
 }: {
   params: Promise<{ makeId: string; year: string }>;
+  searchParams: Promise<{ [key: string]: string }>;
 }) {
   const params = await paramsPromise;
+  const searchParams = await searchParamsPromise;
   const { makeId, year } = params;
+
+  const makeName = decodeURIComponent(
+    searchParams['makeName'] || 'Unknown Make'
+  );
 
   const ModelsList = async () => {
     try {
@@ -57,8 +65,9 @@ export default async function ResultPage({
 
   return (
     <div className="flex flex-col items-center justify-center bg-white text-black">
+      <Breadcrumbs />
       <h1 className="text-3xl font-bold mb-6">
-        Vehicle Models for Make ID: {makeId} and Year: {year}
+        Vehicle Models for {makeName} ({year})
       </h1>
       <Suspense fallback={<p>Loading vehicle models...</p>}>
         <ModelsList />
