@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Car Dealer App
 
-## Getting Started
+## Overview
 
-First, run the development server:
+This project is a car dealer application built using Next.js and Tailwind CSS. It allows users to filter vehicles by make and model year, and view the results dynamically.
+
+## Features
+
+- Filter vehicles by make and model year using dropdowns.
+- Dynamic routes to display vehicle models for the selected make and year.
+- Accessible and responsive design using Tailwind CSS.
+
+## How to Run the Application
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/Olena-P/car-dealer-app
+   cd car-dealer-app
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Add environment variables:
+   Create a `.env.local` file in the root directory and include the following:
+
+   ```
+   NEXT_PUBLIC_API_BASE_URL=https://vpic.nhtsa.dot.gov/api
+   ```
+
+4. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
+
+## How to Build the Application
+
+To build the project for production, run:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Application Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Filter Page
 
-## Learn More
+- **Home Page:** Allows users to select a vehicle make and model year.
+- **Vehicle Makes Dropdown:** Populated dynamically using data fetched from the API:
+  ```
+  https://vpic.nhtsa.dot.gov/api/vehicles/GetMakesForVehicleType/car?format=json
+  ```
+- **Model Year Dropdown:** Displays a range of years from 2015 to the current year.
+- **"Next" Button:** Navigates to the result page (`result/[makeId]/[year]`) when both fields are selected.
 
-To learn more about Next.js, take a look at the following resources:
+### Result Page
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Dynamic Routes:** Pre-rendered paths for specific makes and years using `generateStaticParams`.
+- **Vehicle Models List:** Displays models fetched from:
+  ```
+  https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeIdYear/makeId/{makeId}/modelyear/{year}?format=json
+  ```
+- **Error Handling:** Displays a message if no data is available or an error occurs.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Folder Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `/app` - Contains application pages and dynamic routes.
+- `/components` - Reusable UI components.
+- `/utils` - Helper functions (e.g., API calls).
+- `.env.local` - Environment variables.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Dependencies
+
+- **Next.js** - Server-side rendering and routing.
+- **Tailwind CSS** - Styling framework.
+- **TypeScript** - Type safety for JavaScript.
+- **ESLint** and **Prettier** - For maintaining code quality and formatting.
+
+---
+
+## Additional Resources
+
+- [VPIC API Documentation](https://vpic.nhtsa.dot.gov/api/?ref=public_apis)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+
+---
+
+### Deployment
+
+To deploy the application:
+
+1. Push the project to a GitHub repository.
+2. Use [Vercel](https://vercel.com/) for easy deployment.
+
+---
+
+Let me know if you need further adjustments! 🚀
