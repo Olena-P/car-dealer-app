@@ -15,7 +15,6 @@ export default function Breadcrumbs() {
   });
 
   if (pathname.startsWith('/result')) {
-    const makeId = pathname.split('/')[2];
     const year = pathname.split('/')[3];
     const makeName = searchParams.get('makeName') || 'Unknown Make';
 

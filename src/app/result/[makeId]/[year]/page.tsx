@@ -66,7 +66,7 @@ export default async function ResultPage({
   return (
     <div className="flex flex-col items-center justify-center bg-white text-black">
       <Breadcrumbs />
-      <h1 className="text-3xl font-bold mb-6">
+      <h1 className="text-3xl mb-6">
         Vehicle Models for {makeName} ({year})
       </h1>
       <Suspense fallback={<p>Loading vehicle models...</p>}>

@@ -16,7 +16,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => (
         title="OlenaCodes website link"
         target="_blank"
         rel="noopener noreferrer"
-        className="text-blue-900 hover:text-blue-800"
+        className="text-blue-900 hover:text-blue-800 underline"
       >
         OlenaCodes
       </Link>

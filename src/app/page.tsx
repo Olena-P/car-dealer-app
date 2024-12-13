@@ -45,7 +45,7 @@ export default function FilterPage() {
 
   return (
     <div className="flex flex-col items-center justify-center bg-white text-black">
-      <h1 className="text-3xl font-bold mb-6">Filter Vehicles</h1>
+      <h1 className="text-3xl mb-6">Filter Vehicles</h1>
       <div className="w-full max-w-md space-y-4">
         <LazyMakesSelector
           selectedMake={selectedMake}
