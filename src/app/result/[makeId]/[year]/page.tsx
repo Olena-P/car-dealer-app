@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { fetchVehicleModels } from '@/utils/api';
 import { notFound } from 'next/navigation';
 
@@ -21,37 +22,45 @@ export default async function ResultPage({
   const params = await paramsPromise;
   const { makeId, year } = params;
 
-  try {
-    const vehicleModels: VehicleModel[] = await fetchVehicleModels(
-      makeId,
-      year
-    );
-
-    return (
-      <div className="min-h-screen bg-white text-black p-4">
-        <h1 className="text-2xl font-bold mb-4">
-          Vehicle Models for Make ID: {makeId} and Year: {year}
-        </h1>
-        {vehicleModels.length > 0 ? (
-          <ul className="space-y-2">
-            {vehicleModels.map((model: VehicleModel) => (
-              <li
-                key={model.Model_Name}
-                className="border border-gray-300 p-2 rounded-md shadow-sm"
-              >
-                {model.Model_Name}
-              </li>
-            ))}
-          </ul>
-        ) : (
+  const ModelsList = async () => {
+    try {
+      const vehicleModels: VehicleModel[] = await fetchVehicleModels(
+        makeId,
+        year
+      );
+      if (vehicleModels.length === 0) {
+        return (
           <p className="text-gray-500">
             No models found for the selected make and year.
           </p>
-        )}
-      </div>
-    );
-  } catch (error) {
-    console.error(error);
-    notFound();
-  }
+        );
+      }
+      return (
+        <ul className="space-y-2">
+          {vehicleModels.map((model) => (
+            <li
+              key={model.Model_Name}
+              className="border border-gray-300 p-2 rounded-md shadow-sm"
+            >
+              {model.Model_Name}
+            </li>
+          ))}
+        </ul>
+      );
+    } catch (error) {
+      console.error(error);
+      notFound();
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-white text-black p-4">
+      <h1 className="text-2xl font-bold mb-4">
+        Vehicle Models for Make ID: {makeId} and Year: {year}
+      </h1>
+      <Suspense fallback={<p>Loading vehicle models...</p>}>
+        <ModelsList />
+      </Suspense>
+    </div>
+  );
 }
