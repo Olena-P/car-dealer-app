@@ -1,9 +1,13 @@
 'use client';
 
-import { useState, Suspense, lazy } from 'react';
+import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-const LazyMakesSelector = lazy(() => import('./components/MakesSelector'));
+const LazyMakesSelector = dynamic(() => import('./components/MakesSelector'), {
+  ssr: false,
+  loading: () => <p>Loading makes...</p>,
+});
 
 export default function FilterPage() {
   const [selectedMake, setSelectedMake] = useState<string>('');
@@ -14,15 +18,13 @@ export default function FilterPage() {
   );
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white text-black">
+    <div className="flex flex-col items-center justify-center  bg-white text-black">
       <h1 className="text-3xl font-bold mb-6">Filter Vehicles</h1>
       <div className="w-full max-w-md space-y-4">
-        <Suspense fallback={<p>Loading makes...</p>}>
-          <LazyMakesSelector
-            selectedMake={selectedMake}
-            setSelectedMake={setSelectedMake}
-          />
-        </Suspense>
+        <LazyMakesSelector
+          selectedMake={selectedMake}
+          setSelectedMake={setSelectedMake}
+        />
         <div>
           <label htmlFor="years" className="block text-sm font-medium mb-2">
             Select Model Year

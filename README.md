@@ -62,6 +62,8 @@ npm run build
 - **Model Year Dropdown:** Displays a range of years from 2015 to the current year.
 - **"Next" Button:** Navigates to the result page (`result/[makeId]/[year]`) when both fields are selected.
 
+  ![Filter Page](/public/screenshots/filter-page-screenshot.png)
+
 ### Result Page
 
 - **Dynamic Routes:** Pre-rendered paths for specific makes and years using `generateStaticParams`.
@@ -70,6 +72,7 @@ npm run build
   https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeIdYear/makeId/{makeId}/modelyear/{year}?format=json
   ```
 - **Error Handling:** Displays a message if no data is available or an error occurs.
+  ![Result Page](/public/screenshots/result-page-screenshot.png)
 
 ---
 
