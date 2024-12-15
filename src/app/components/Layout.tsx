@@ -11,9 +11,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => (
     <footer className="p-4 border-t border-gray-200 text-center text-sm text-gray-600">
       &copy; {new Date().getFullYear()} Car Dealer App.{' '}
       <Link
-        href="https://olenacodes.netlify.app/"
-        aria-label="OlenaCodes website link"
-        title="OlenaCodes website link"
+        href="https://www.olenacodes.com/"
+        aria-label="OlenaCodes Blog & Portfolio"
+        title="OlenaCodes Blog & Portfolio"
         target="_blank"
         rel="noopener noreferrer"
         className="text-blue-900 hover:text-blue-800 underline"
